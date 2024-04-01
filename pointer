@@ -1,0 +1,353 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+//bai 2
+int* sum (int* a ,int* b ) {
+    int* sum = new int;
+
+    *sum = *a + *b;
+
+    return sum;
+}
+
+//bai 3
+void inputArray (int * a , int & n ){
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+}
+
+//bai4
+void printArray (int * a , int n ){
+    for (int i = 0; i < n; i++)
+        cout << a[i] << " ";
+} 
+
+//bai 5
+int*  findMax (int* a , int n ) {
+    int* max = new int;
+
+    *max = a[0];
+
+    for (int i = 1; i < n; i++){
+        if (*max < a[i])
+            *max = a[i];
+    }
+
+    return max;
+}
+
+//bai 6
+int *  copyArray (int * a , int n ) {
+    int*  b = new int[n];
+    for (int i = 0; i < n; i++)
+        b[i] = a[i];
+    return b;
+}
+
+//bai 7
+int * generateEvenArray (int * arr , int n , int * count ){
+    count = new int {0};
+    for (int i = 0; i < n; i++)
+        if (arr[i] % 2 == 0)
+            (*count)++;
+
+    return count;
+}
+
+//bai 8
+int * findLargestSumSubarray ( int * a , int n , int & largestSum , int &subarrayLength ){
+    int maxArray = 0;
+    int maxLengthArray = 0;
+    int pos = 0;
+    int cpyA[1000] {0};
+
+    for (int i = 0; i < n; i++)
+        cpyA[i] = a[i];
+
+    cpyA[n] = -1;
+
+    largestSum = cpyA[0];
+
+    for (int i = 1; i < n; i++){
+        if (largestSum < cpyA[i])
+            largestSum = cpyA[i];
+    }
+
+    for (int i = 0; i < n; i++){
+        cpyA[i + 1] += cpyA[i];
+        maxArray = cpyA[i];
+        maxLengthArray++;
+        if (cpyA[i + 1] < cpyA[i]){
+            if (maxArray > largestSum){
+                largestSum = maxArray;
+                subarrayLength = maxLengthArray;
+                pos = i;
+            }
+            maxArray = 0;
+            maxLengthArray = -1;
+            cpyA[i + 1] = 0;
+        }
+    }
+
+    int* subArr = new int [largestSum];
+
+    for (int i = 0; i < subarrayLength; i++)
+        subArr[subarrayLength - 1 - i] = a[pos - i];
+
+    return subArr;
+}
+
+//bai 9
+int * findLongestAscendingSubarray ( int * a , int n , int & subarrayLength ){
+    int count = 0;
+    int* pos = new int ;
+
+    for (int i = 0; i < n - 1; i++){
+        if (a[i] < a[i + 1]){
+            count++;
+        } else {
+            if (subarrayLength < count){
+                subarrayLength = count;
+                *pos = i;
+            }
+            count = 0;
+        }
+    }
+
+    if (subarrayLength < count){
+            subarrayLength = count;
+            *pos = n - 1;
+    }
+
+    return pos;
+}
+
+//bai 10
+void swapArrays (int * a , int * b , int&  na , int&  nb ) {
+    int tmp = 0;
+
+    if (na > nb){
+        tmp = na;
+        na = nb;
+        nb = tmp;
+       for (int i = 0; i < na; i++){
+            tmp = b[i];
+            b[i] = a[i];
+            if (nb <= i){
+                continue;
+            } else {
+                a[i] = tmp;
+            }
+        }
+    } else {
+        tmp = na;
+        na = nb;
+        nb = tmp;
+       for (int i = 0; i < na; i++){
+            tmp = a[i];
+            a[i] = b[i];
+            if (na <= i){
+                continue;
+            } else {
+                b[i] = tmp;
+            }
+        }
+    }
+
+}
+
+//bai 11
+int* concatenateTwoArrays (int * a , int * b , int na , int nb ){
+    int* cpyArr = new int [na + nb];
+
+    for (int i = 0; i < na + nb; i++){
+        if (na <= i){
+            cpyArr[i] = b[i - na];
+        } else {
+            cpyArr[i] = a[i];
+        }
+    }
+    return cpyArr;
+}
+
+//bai 12
+int * mergeTwoArrays (int * a , int * b , int na , int nb , int & nc ){
+    int* cpyArr = concatenateTwoArrays(a, b, na, nb);
+    int tmp = 0;
+
+    nc = na + nb;
+
+    for (int i = 0; i < nc - 1; i++){
+        for (int j = 0; j < nc - i - 1; j++){
+            if (cpyArr[j] > cpyArr[j + 1]){
+                tmp = cpyArr[j + 1];
+                cpyArr[j + 1] = cpyArr[j];
+                cpyArr[j] = tmp;
+            }
+        }
+    }
+
+    return cpyArr;
+}
+
+//bai 13
+void generateRandomMatrix (int** A , int m , int n ){
+    A = new (nothrow) int* [m];
+
+    if (!A){
+        cout << "Could not allocate memory";
+        delete[] A;
+        A = nullptr;
+        return;
+    }
+
+    for (int i = 0; i < m; i++){
+        A[i] = new int [n];
+        if (!A[i]){
+            cout << "Could not allocate memory";
+            for (int j = 0; j <=  i; j++){
+                delete[] A[j];
+                A[j] = nullptr;
+            }
+            return;
+        }
+    }
+
+    for (int i = 0; i < m; i++){
+        for (int j = 0; j < n; j++){
+            A[i][j] = rand();
+        }
+    }
+}
+
+//bai 14
+int ** calculateProductMatrix ( int * a , int * b , int na , int nb ){
+    int** cpyArr = new (nothrow) int* [na];
+
+    if (!cpyArr){
+        cout << "Could not allocate memory";
+        delete[] cpyArr;
+        cpyArr = nullptr;
+        return cpyArr;
+    }
+
+    for (int i = 0; i < na; i++){
+        cpyArr[i] = new int [nb];
+        if (!cpyArr[i]){
+            cout << "Could not allocate memory";
+            for (int j = 0; j <=  i; j++){
+                delete[] cpyArr[j];
+                cpyArr[j] = nullptr;
+            }
+            return cpyArr;
+        }
+    }
+
+    for (int i = 0; i < na; i++){
+        for (int j = 0; j < nb; j++){
+            cpyArr[i][j] = a[i] * b[j];
+        }
+    }
+
+    return cpyArr;
+}
+
+//bai 15
+void swapRows (int ** a , int rows , int cols , int firstRow , int secondRow ){
+    int tmp = 0;
+
+    for (int i = 0; i < cols; i++){
+        tmp = a[firstRow][i];
+        a[firstRow][i] = a[secondRow][i];
+        a[secondRow][i] = tmp;
+    }
+}
+void swapColumns ( int ** a , int rows , int cols , int firstCol , int secondCol ){
+    int tmp = 0;
+
+    for (int i = 0; i < rows; i++){
+        tmp = a[i][firstCol];
+        a[i][firstCol] = a[i][secondCol];
+        a[i][secondCol] = tmp;
+    }
+}
+
+//bai 16
+int ** transposeMatrix ( int ** a , int m , int n ){
+    int** cpyArr = new (nothrow) int* [n];
+
+    if (!cpyArr){
+        cout << "Could not allocate memory";
+        delete[] cpyArr;
+        cpyArr = nullptr;
+        return cpyArr;
+    }
+
+    for (int i = 0; i < n; i++){
+        cpyArr[i] = new int [m];
+        if (!cpyArr[i]){
+            cout << "Could not allocate memory";
+            for (int j = 0; j <=  i; j++){
+                delete[] cpyArr[j];
+                cpyArr[j] = nullptr;
+            }
+            return cpyArr;
+        }
+    }
+
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
+            cpyArr[i][j] = a[j][i];
+        }
+    }
+
+    return cpyArr;
+}
+
+//bai 18
+int ** multiplyMatrices (int ** a , int ** b , int ma , int na , int mb , int nb ){
+    int** cpyArr = new (nothrow) int* [ma];
+
+    if(!cpyArr){
+        cout << "Could not allocate memory";
+        delete[] cpyArr;
+        cpyArr = nullptr;
+        return cpyArr;
+    }
+
+    for (int i = 0; i < ma; i++){
+        cpyArr[i] = new (nothrow) int [nb];
+
+        if (!cpyArr){
+            cout << "Could not allocate memory";
+            
+            for (int j = 0; j <=  i; j++){
+                delete[] cpyArr[j];
+                cpyArr[j] = nullptr;
+            }
+
+            return cpyArr;
+        }
+    }
+
+    if (na != mb){
+        cout << "Could not multiply matrices";
+        return nullptr;
+    }
+
+    for (int i = 0; i < ma; i++){
+        for (int j = 0; j < nb; j++){
+            for (int k = 0; k < na; k++){
+                cpyArr[i][j] = a[i][k] * b[k][j];
+            }
+        }
+    }
+
+    return cpyArr;
+}
+
+int main(){
+    
+    return 0;
+}
