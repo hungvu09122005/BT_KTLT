@@ -1,0 +1,101 @@
+// #include <iostream>
+// #include <stdio.h>
+
+// using namespace std;
+
+// int main (){
+//     FILE* f = fopen("txt.in", "wb");
+
+//      int* arr = new int [5] {0, 1, 2, 3, 4};
+//      int n = 5;
+//     char* str = new char [5] {"0123"};
+
+//     int x = fwrite(&n, sizeof(int), 1, f);
+//     int y = fwrite(str, sizeof(int)* 5, 1, f);
+
+//     cout << x << " " << y << "\n";
+
+//     // if (x != 1 || y != 5){
+//     //     cout << "error";
+//     //     return 0;
+//     // }
+
+//     fclose(f);
+
+//     f = fopen("txt.in", "rb");
+
+//      int n1 = 0;
+//      int* arr1 = new int [5];
+//     char* str1 = new char [5];
+
+//     x = fread(&n1, sizeof(int), 1, f);
+//     y = fread(str1, sizeof(int)* 5, 1, f);
+
+//     if (x != 1 || y != 5){
+//         cout << "error";
+//         return 0;
+//     }
+
+//     for (int i = 0; i < n1; i++){
+//         cout << str1[i];
+//     }
+
+//     fclose(f);
+//     return 0;
+
+//     FILE* f = fopen("txt.in", "wt");
+
+//     char* str = new char [5] {"0123"};
+//     fputs(str, f);
+
+
+//     fprintf(f ,"%d \n", n);
+//     fprintf(f, "%d %d %d %d %d", (arr[0]), (arr[1]), (arr[2]), (arr[3]), (arr[4]));
+
+//     fclose(f);
+
+//     f = fopen ("txt.in", "rt");
+
+//     char c[5];
+//     fgets(c, 5, f);
+
+//     for (int i = 0; i < 5; i++){
+//         cout << c[i];
+//     }
+
+//     fscanf(f ,"%d \n", &n1);
+//     fscanf(f, "%d %d %d %d %d", &(arr1[0]), &(arr1[1]), &(arr1[2]), &(arr1[3]), &(arr1[4]));
+
+//     for (int i = 0; i < n1; i++){
+//         cout << arr1[i] <<" ";
+//     }
+
+//     fclose(f);
+//     return 0;
+// }
+
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+int main (){
+    
+    FILE* f = fopen("txt.in", "wt");
+
+    char* str = new char [99] {"0123"};
+    cin.getline(str, 99);
+    
+    fputs(str, f);
+
+    fclose(f);
+
+    f = fopen ("txt.in", "rt");
+
+    char c[99];
+    fgets(c, 99, f);
+
+     cout << c;
+
+    return 0;
+}
